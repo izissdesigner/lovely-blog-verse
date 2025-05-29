@@ -1,4 +1,5 @@
 
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -137,4 +138,4 @@
     @apply text-gray-700 leading-relaxed mb-4;
   }
 }
-</lov-css>
+
