@@ -16,6 +16,8 @@ import ForgotPassword from "./pages/ForgotPassword";
 import Profile from "./pages/Profile";
 import ChangePassword from "./pages/ChangePassword";
 import CreateBlog from "./pages/CreateBlog";
+import Kundli from "./pages/Kundli";
+import Panchang from "./pages/Panchang";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -39,6 +41,8 @@ const App = () => (
               <Route path="/profile" element={<Profile />} />
               <Route path="/change-password" element={<ChangePassword />} />
               <Route path="/create-blog" element={<CreateBlog />} />
+              <Route path="/kundli" element={<Kundli />} />
+              <Route path="/panchang" element={<Panchang />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>

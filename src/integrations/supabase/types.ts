@@ -19,6 +19,7 @@ export type Database = {
           id: number
           image_url: string | null
           published: boolean | null
+          tags: string[] | null
           title: string | null
           updated_at: string | null
         }
@@ -31,6 +32,7 @@ export type Database = {
           id?: number
           image_url?: string | null
           published?: boolean | null
+          tags?: string[] | null
           title?: string | null
           updated_at?: string | null
         }
@@ -43,8 +45,125 @@ export type Database = {
           id?: number
           image_url?: string | null
           published?: boolean | null
+          tags?: string[] | null
           title?: string | null
           updated_at?: string | null
+        }
+        Relationships: []
+      }
+      blog_views: {
+        Row: {
+          blog_id: number | null
+          id: string
+          ip_address: unknown | null
+          user_id: string | null
+          viewed_at: string
+        }
+        Insert: {
+          blog_id?: number | null
+          id?: string
+          ip_address?: unknown | null
+          user_id?: string | null
+          viewed_at?: string
+        }
+        Update: {
+          blog_id?: number | null
+          id?: string
+          ip_address?: unknown | null
+          user_id?: string | null
+          viewed_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "blog_views_blog_id_fkey"
+            columns: ["blog_id"]
+            isOneToOne: false
+            referencedRelation: "blog"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      kundli: {
+        Row: {
+          created_at: string
+          date_of_birth: string
+          id: string
+          kundli_data: Json | null
+          name: string
+          place_of_birth: string
+          time_of_birth: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          date_of_birth: string
+          id?: string
+          kundli_data?: Json | null
+          name: string
+          place_of_birth: string
+          time_of_birth: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          date_of_birth?: string
+          id?: string
+          kundli_data?: Json | null
+          name?: string
+          place_of_birth?: string
+          time_of_birth?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      panchang: {
+        Row: {
+          created_at: string
+          date: string
+          festivals: string[] | null
+          id: string
+          karana: string | null
+          moonrise: string | null
+          moonset: string | null
+          nakshatra: string | null
+          sunrise: string | null
+          sunset: string | null
+          tithi: string | null
+          updated_at: string
+          yoga: string | null
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          festivals?: string[] | null
+          id?: string
+          karana?: string | null
+          moonrise?: string | null
+          moonset?: string | null
+          nakshatra?: string | null
+          sunrise?: string | null
+          sunset?: string | null
+          tithi?: string | null
+          updated_at?: string
+          yoga?: string | null
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          festivals?: string[] | null
+          id?: string
+          karana?: string | null
+          moonrise?: string | null
+          moonset?: string | null
+          nakshatra?: string | null
+          sunrise?: string | null
+          sunset?: string | null
+          tithi?: string | null
+          updated_at?: string
+          yoga?: string | null
         }
         Relationships: []
       }
