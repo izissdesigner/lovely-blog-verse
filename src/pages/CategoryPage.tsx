@@ -10,7 +10,7 @@ import { TrendingUp, Star, Hash } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 
 interface Blog {
-  id: string;
+  id: number;
   title: string;
   excerpt: string;
   image_url: string;
@@ -129,7 +129,7 @@ const CategoryPage = () => {
                 {categoryBlogs.map((blog) => (
                   <BlogCard
                     key={blog.id}
-                    id={blog.id}
+                    id={blog.id.toString()}
                     title={blog.title}
                     excerpt={blog.excerpt}
                     image={blog.image_url || 'photo-1518770660439-4636190af475'}
@@ -166,7 +166,7 @@ const CategoryPage = () => {
                   {relatedBlogs.map((blog) => (
                     <BlogCard
                       key={blog.id}
-                      id={blog.id}
+                      id={blog.id.toString()}
                       title={blog.title}
                       excerpt={blog.excerpt}
                       image={blog.image_url || 'photo-1518770660439-4636190af475'}
@@ -199,7 +199,7 @@ const CategoryPage = () => {
                   {popularBlogs.map((blog) => (
                     <BlogCard
                       key={blog.id}
-                      id={blog.id}
+                      id={blog.id.toString()}
                       title={blog.title}
                       excerpt={blog.excerpt}
                       image={blog.image_url || 'photo-1518770660439-4636190af475'}

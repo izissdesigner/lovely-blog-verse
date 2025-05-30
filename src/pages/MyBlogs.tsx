@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 
 interface Blog {
-  id: string;
+  id: number;
   title: string;
   excerpt: string;
   image_url: string;
@@ -55,7 +55,7 @@ const MyBlogs = () => {
     }
   };
 
-  const deleteBlog = async (blogId: string) => {
+  const deleteBlog = async (blogId: number) => {
     try {
       const { error } = await supabase
         .from('blog')

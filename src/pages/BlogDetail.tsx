@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 
 interface Blog {
-  id: string;
+  id: number;
   title: string;
   content: string;
   image_url: string;
@@ -37,7 +37,7 @@ const BlogDetail = () => {
       const { data, error } = await supabase
         .from('blog')
         .select('*')
-        .eq('id', id)
+        .eq('id', parseInt(id || '0'))
         .single();
 
       if (error) {
