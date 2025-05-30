@@ -224,7 +224,7 @@ const Kundli = () => {
                   {Object.entries(kundliData.planetaryPositions).map(([planet, position]) => (
                     <div key={planet} className="bg-orange-50 p-4 rounded-lg">
                       <h4 className="font-semibold text-gray-800 capitalize">{planet}</h4>
-                      <p className="text-orange-600 font-medium">{position}</p>
+                      <p className="text-orange-600 font-medium">{position as string}</p>
                     </div>
                   ))}
                 </div>
@@ -237,7 +237,7 @@ const Kundli = () => {
                   {Object.entries(kundliData.houses).map(([house, description]) => (
                     <div key={house} className="border border-gray-200 p-4 rounded-lg">
                       <h4 className="font-semibold text-gray-800 capitalize">{house.replace(/([A-Z])/g, ' $1')}</h4>
-                      <p className="text-gray-600 text-sm mt-1">{description}</p>
+                      <p className="text-gray-600 text-sm mt-1">{description as string}</p>
                     </div>
                   ))}
                 </div>
