@@ -12,6 +12,9 @@ import CategoryPage from "./pages/CategoryPage";
 import AuthorProfile from "./pages/AuthorProfile";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import ForgotPassword from "./pages/ForgotPassword";
+import Profile from "./pages/Profile";
+import ChangePassword from "./pages/ChangePassword";
 import CreateBlog from "./pages/CreateBlog";
 import NotFound from "./pages/NotFound";
 
@@ -32,6 +35,9 @@ const App = () => (
               <Route path="/author/:authorId" element={<AuthorProfile />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/change-password" element={<ChangePassword />} />
               <Route path="/create-blog" element={<CreateBlog />} />
               <Route path="*" element={<NotFound />} />
             </Routes>

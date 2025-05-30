@@ -14,6 +14,7 @@ const Signup = () => {
   const { signup } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -34,19 +35,23 @@ const Signup = () => {
       return;
     }
 
+    setLoading(true);
+    
     try {
       await signup(formData.name, formData.email, formData.mobile, formData.password);
       toast({
         title: "Account Created!",
-        description: "Welcome to BlogHub. You can now create your first blog.",
+        description: "Welcome to BlogHub. Please check your email for verification.",
       });
       navigate('/');
-    } catch (error) {
+    } catch (error: any) {
       toast({
         title: "Signup Failed",
-        description: "Please check your information and try again.",
+        description: error.message || "Please check your information and try again.",
         variant: "destructive",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -138,8 +143,8 @@ const Signup = () => {
               />
             </div>
 
-            <Button type="submit" className="w-full">
-              {t('signup')}
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? 'Creating account...' : t('signup')}
             </Button>
           </form>
 

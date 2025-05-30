@@ -14,6 +14,7 @@ const Login = () => {
   const { login } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -21,6 +22,8 @@ const Login = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+    
     try {
       await login(formData.email, formData.password);
       toast({
@@ -28,12 +31,14 @@ const Login = () => {
         description: "Welcome back to BlogHub.",
       });
       navigate('/');
-    } catch (error) {
+    } catch (error: any) {
       toast({
         title: "Login Failed",
-        description: "Please check your credentials and try again.",
+        description: error.message || "Please check your credentials and try again.",
         variant: "destructive",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -85,13 +90,13 @@ const Login = () => {
             </div>
 
             <div className="text-right">
-              <Link to="#" className="text-sm text-blue-600 hover:text-blue-700">
+              <Link to="/forgot-password" className="text-sm text-blue-600 hover:text-blue-700">
                 {t('forgotPassword')}
               </Link>
             </div>
 
-            <Button type="submit" className="w-full">
-              {t('login')}
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? 'Logging in...' : t('login')}
             </Button>
           </form>
 
