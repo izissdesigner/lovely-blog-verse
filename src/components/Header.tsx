@@ -1,8 +1,8 @@
 
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Globe, User, LogOut, PenTool, Settings, UserIcon } from 'lucide-react';
+import { Globe, User, LogOut, PenTool, Settings, UserIcon, BookOpen } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,6 +19,7 @@ const Header = () => {
   const { user, profile, logout, isAuthenticated } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const categories = [
     'entertainment',
@@ -47,6 +48,13 @@ const Header = () => {
     }
   };
 
+  const isActivePage = (path: string) => {
+    if (path === '/') {
+      return location.pathname === '/';
+    }
+    return location.pathname.startsWith(path);
+  };
+
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-4">
@@ -61,14 +69,25 @@ const Header = () => {
 
           {/* Navigation Menu */}
           <nav className="hidden md:flex items-center space-x-6">
-            <Link to="/" className="text-gray-600 hover:text-blue-600 transition-colors">
+            <Link 
+              to="/" 
+              className={`transition-colors ${
+                isActivePage('/') && location.pathname === '/'
+                  ? 'text-blue-600 font-semibold' 
+                  : 'text-gray-600 hover:text-blue-600'
+              }`}
+            >
               {t('home')}
             </Link>
             {categories.map((category) => (
               <Link
                 key={category}
                 to={`/category/${category}`}
-                className="text-gray-600 hover:text-blue-600 transition-colors capitalize"
+                className={`transition-colors capitalize ${
+                  isActivePage(`/category/${category}`)
+                    ? 'text-blue-600 font-semibold' 
+                    : 'text-gray-600 hover:text-blue-600'
+                }`}
               >
                 {t(category)}
               </Link>
@@ -101,6 +120,10 @@ const Header = () => {
                   <DropdownMenuItem onClick={() => navigate('/profile')}>
                     <UserIcon className="h-4 w-4 mr-2" />
                     My Profile
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate('/my-blogs')}>
+                    <BookOpen className="h-4 w-4 mr-2" />
+                    My Blogs
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => navigate('/change-password')}>
                     <Settings className="h-4 w-4 mr-2" />

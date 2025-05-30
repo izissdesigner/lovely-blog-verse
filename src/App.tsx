@@ -16,6 +16,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import Profile from "./pages/Profile";
 import ChangePassword from "./pages/ChangePassword";
 import CreateBlog from "./pages/CreateBlog";
+import MyBlogs from "./pages/MyBlogs";
 import Kundli from "./pages/Kundli";
 import Panchang from "./pages/Panchang";
 import NotFound from "./pages/NotFound";
@@ -41,6 +42,7 @@ const App = () => (
               <Route path="/profile" element={<Profile />} />
               <Route path="/change-password" element={<ChangePassword />} />
               <Route path="/create-blog" element={<CreateBlog />} />
+              <Route path="/my-blogs" element={<MyBlogs />} />
               <Route path="/kundli" element={<Kundli />} />
               <Route path="/panchang" element={<Panchang />} />
               <Route path="*" element={<NotFound />} />

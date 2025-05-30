@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom';
 import { Calendar, User } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -13,6 +12,7 @@ interface BlogCardProps {
   authorId: string;
   date: string;
   size?: 'small' | 'medium' | 'large';
+  showCategoryTag?: boolean;
 }
 
 const BlogCard = ({ 
@@ -24,7 +24,8 @@ const BlogCard = ({
   author, 
   authorId, 
   date, 
-  size = 'medium' 
+  size = 'medium',
+  showCategoryTag = true
 }: BlogCardProps) => {
   const { t } = useLanguage();
 
@@ -34,23 +35,34 @@ const BlogCard = ({
     large: 'w-full'
   };
 
+  const getImageUrl = (imageInput: string) => {
+    // If it's already a full URL, return as is
+    if (imageInput.startsWith('http')) {
+      return imageInput;
+    }
+    // Otherwise, treat as Unsplash photo ID
+    return `https://images.unsplash.com/${imageInput}?auto=format&fit=crop&w=800&q=80`;
+  };
+
   return (
     <div className={`bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 ${sizeClasses[size]} flex-shrink-0`}>
       <Link to={`/blog/${id}`}>
         <div className="relative h-48 overflow-hidden">
           <img 
-            src={`https://images.unsplash.com/${image}?auto=format&fit=crop&w=800&q=80`}
+            src={getImageUrl(image)}
             alt={title}
             className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
           />
-          <div className="absolute top-3 left-3">
-            <Link 
-              to={`/category/${category}`}
-              className="bg-blue-600 text-white px-2 py-1 rounded-full text-xs font-medium hover:bg-blue-700 transition-colors"
-            >
-              {t(category)}
-            </Link>
-          </div>
+          {showCategoryTag && (
+            <div className="absolute top-3 left-3">
+              <Link 
+                to={`/category/${category}`}
+                className="bg-blue-600 text-white px-2 py-1 rounded-full text-xs font-medium hover:bg-blue-700 transition-colors"
+              >
+                {t(category)}
+              </Link>
+            </div>
+          )}
         </div>
       </Link>
       

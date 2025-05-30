@@ -2,9 +2,18 @@
 import { Link } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Calendar, Star, TrendingUp } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { supabase } from '@/integrations/supabase/client';
+
+interface PopularBlog {
+  id: string;
+  title: string;
+  image_url?: string;
+}
 
 const Sidebar = () => {
   const { t } = useLanguage();
+  const [popularBlogs, setPopularBlogs] = useState<PopularBlog[]>([]);
 
   const categories = [
     'entertainment',
@@ -16,13 +25,40 @@ const Sidebar = () => {
     'business'
   ];
 
-  const popularBlogs = [
-    { id: '1', title: 'How to Build Better Habits for Success' },
-    { id: '2', title: 'The Future of Artificial Intelligence' },
-    { id: '3', title: 'Healthy Recipes for Busy Professionals' },
-    { id: '4', title: 'Latest Technology Trends in 2024' },
-    { id: '5', title: 'Business Growth Strategies' }
-  ];
+  useEffect(() => {
+    fetchPopularBlogs();
+  }, []);
+
+  const fetchPopularBlogs = async () => {
+    try {
+      // Get most viewed blogs by counting blog_views
+      const { data, error } = await supabase
+        .from('blog')
+        .select(`
+          id,
+          title,
+          image_url,
+          blog_views(count)
+        `)
+        .eq('published', true)
+        .order('created_at', { ascending: false })
+        .limit(5);
+
+      if (!error && data) {
+        setPopularBlogs(data);
+      }
+    } catch (error) {
+      console.error('Error fetching popular blogs:', error);
+      // Fallback to mock data if no real data available
+      setPopularBlogs([
+        { id: '1', title: 'How to Build Better Habits for Success', image_url: 'photo-1518770660439-4636190af475' },
+        { id: '2', title: 'The Future of Artificial Intelligence', image_url: 'photo-1461749280684-dccba630e2f6' },
+        { id: '3', title: 'Healthy Recipes for Busy Professionals', image_url: 'photo-1488590528505-98d2b5aba04b' },
+        { id: '4', title: 'Latest Technology Trends in 2024', image_url: 'photo-1487058792275-0ad4aaf24ca7' },
+        { id: '5', title: 'Business Growth Strategies', image_url: 'photo-1526374965328-7f61d4dc18c5' }
+      ]);
+    }
+  };
 
   return (
     <aside className="w-full space-y-6">
@@ -115,10 +151,19 @@ const Sidebar = () => {
                 className="group block"
               >
                 <div className="flex items-start space-x-3">
-                  <div className="flex-shrink-0 w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
-                    <span className="text-yellow-600 font-bold text-sm">{index + 1}</span>
+                  <div className="flex-shrink-0">
+                    <img 
+                      src={blog.image_url ? blog.image_url : `https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=80&q=80`}
+                      alt={blog.title}
+                      className="w-12 h-12 rounded-lg object-cover"
+                    />
                   </div>
-                  <div className="flex-1">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center space-x-2 mb-1">
+                      <div className="w-6 h-6 bg-yellow-100 rounded-full flex items-center justify-center flex-shrink-0">
+                        <span className="text-yellow-600 font-bold text-xs">{index + 1}</span>
+                      </div>
+                    </div>
                     <h4 className="text-sm font-medium text-gray-800 group-hover:text-blue-600 transition-colors leading-relaxed line-clamp-2">
                       {blog.title}
                     </h4>
