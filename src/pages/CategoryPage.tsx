@@ -77,10 +77,7 @@ const CategoryPage = () => {
     try {
       const { data, error } = await supabase
         .from('blog')
-        .select(`
-          *,
-          blog_views(count)
-        `)
+        .select('*')
         .eq('published', true)
         .order('created_at', { ascending: false })
         .limit(3);
@@ -127,19 +124,7 @@ const CategoryPage = () => {
             {categoryBlogs.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
                 {categoryBlogs.map((blog) => (
-                  <BlogCard
-                    key={blog.id}
-                    id={blog.id.toString()}
-                    title={blog.title}
-                    excerpt={blog.excerpt}
-                    image={blog.image_url || 'photo-1518770660439-4636190af475'}
-                    category={category || ''}
-                    author="Author"
-                    authorId={blog.author_id}
-                    date={new Date(blog.created_at).toLocaleDateString()}
-                    size="large"
-                    showCategoryTag={false}
-                  />
+                  <BlogCard key={blog.id} blog={blog} />
                 ))}
               </div>
             ) : (
@@ -164,19 +149,7 @@ const CategoryPage = () => {
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {relatedBlogs.map((blog) => (
-                    <BlogCard
-                      key={blog.id}
-                      id={blog.id.toString()}
-                      title={blog.title}
-                      excerpt={blog.excerpt}
-                      image={blog.image_url || 'photo-1518770660439-4636190af475'}
-                      category={category || ''}
-                      author="Author"
-                      authorId={blog.author_id}
-                      date={new Date(blog.created_at).toLocaleDateString()}
-                      size="small"
-                      showCategoryTag={false}
-                    />
+                    <BlogCard key={blog.id} blog={blog} />
                   ))}
                 </div>
               </section>
@@ -197,19 +170,7 @@ const CategoryPage = () => {
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {popularBlogs.map((blog) => (
-                    <BlogCard
-                      key={blog.id}
-                      id={blog.id.toString()}
-                      title={blog.title}
-                      excerpt={blog.excerpt}
-                      image={blog.image_url || 'photo-1518770660439-4636190af475'}
-                      category={category || ''}
-                      author="Author"
-                      authorId={blog.author_id}
-                      date={new Date(blog.created_at).toLocaleDateString()}
-                      size="small"
-                      showCategoryTag={false}
-                    />
+                    <BlogCard key={blog.id} blog={blog} />
                   ))}
                 </div>
               </section>

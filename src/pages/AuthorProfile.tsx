@@ -24,6 +24,7 @@ interface Blog {
   excerpt: string;
   image_url: string;
   category: string;
+  author_id: string;
   created_at: string;
   published: boolean;
 }

@@ -29,10 +29,14 @@ const BlogCard = ({ blog }: BlogCardProps) => {
   const [author, setAuthor] = useState<Author | null>(null);
 
   useEffect(() => {
-    fetchAuthor();
-  }, [blog.author_id]);
+    if (blog?.author_id) {
+      fetchAuthor();
+    }
+  }, [blog?.author_id]);
 
   const fetchAuthor = async () => {
+    if (!blog?.author_id) return;
+    
     try {
       const { data, error } = await supabase
         .from('profiles')
@@ -47,6 +51,10 @@ const BlogCard = ({ blog }: BlogCardProps) => {
       console.error('Error fetching author:', error);
     }
   };
+
+  if (!blog) {
+    return null;
+  }
 
   const imageUrl = blog.image_url?.startsWith('http') 
     ? blog.image_url 
