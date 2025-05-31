@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import Header from '@/components/Header';
@@ -14,7 +15,8 @@ const Profile = () => {
   const [formData, setFormData] = useState({
     name: '',
     mobile: '',
-    email: ''
+    email: '',
+    bio: ''
   });
 
   useEffect(() => {
@@ -22,7 +24,8 @@ const Profile = () => {
       setFormData({
         name: profile.name || '',
         mobile: profile.mobile || '',
-        email: profile.email || ''
+        email: profile.email || '',
+        bio: profile.bio || ''
       });
     }
   }, [profile]);
@@ -35,7 +38,8 @@ const Profile = () => {
       await updateProfile({
         name: formData.name,
         mobile: formData.mobile,
-        email: formData.email
+        email: formData.email,
+        bio: formData.bio
       });
       toast({
         title: "Profile Updated",
@@ -52,7 +56,7 @@ const Profile = () => {
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({
       ...prev,
       [e.target.name]: e.target.value
@@ -106,6 +110,20 @@ const Profile = () => {
                 value={formData.mobile}
                 onChange={handleChange}
                 placeholder="Enter your mobile number"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Bio
+              </label>
+              <Textarea
+                name="bio"
+                value={formData.bio}
+                onChange={handleChange}
+                placeholder="Tell us about yourself..."
+                rows={4}
+                className="w-full"
               />
             </div>
 

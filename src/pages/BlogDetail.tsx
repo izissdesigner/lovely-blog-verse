@@ -1,5 +1,6 @@
 
 import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Calendar, User, Tag } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -19,10 +20,16 @@ interface Blog {
   excerpt: string;
 }
 
+interface Author {
+  id: string;
+  name: string;
+}
+
 const BlogDetail = () => {
   const { id } = useParams();
   const { t } = useLanguage();
   const [blog, setBlog] = useState<Blog | null>(null);
+  const [author, setAuthor] = useState<Author | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -46,6 +53,19 @@ const BlogDetail = () => {
       }
 
       setBlog(data);
+      
+      // Fetch author data
+      if (data.author_id) {
+        const { data: authorData, error: authorError } = await supabase
+          .from('profiles')
+          .select('id, name')
+          .eq('id', data.author_id)
+          .single();
+
+        if (!authorError && authorData) {
+          setAuthor(authorData);
+        }
+      }
     } catch (error) {
       console.error('Error:', error);
     } finally {
@@ -119,10 +139,18 @@ const BlogDetail = () => {
                     </span>
                   </div>
                   
-                  <div className="flex items-center space-x-1">
-                    <User className="h-4 w-4" />
-                    <span>{t('by')} Author</span>
-                  </div>
+                  {author && (
+                    <div className="flex items-center space-x-1">
+                      <User className="h-4 w-4" />
+                      <span>{t('by')} </span>
+                      <Link 
+                        to={`/author/${blog.author_id}`}
+                        className="text-blue-600 hover:text-blue-800 transition-colors font-medium"
+                      >
+                        {author.name}
+                      </Link>
+                    </div>
+                  )}
                   
                   <div className="flex items-center space-x-1">
                     <Calendar className="h-4 w-4" />
